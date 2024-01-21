@@ -65,4 +65,3 @@ function slide($board, $from, $to) {
     return min(len($board[$common[0]]), len($board[$common[1]])) <= max(len($board[$from]), len($board[$to]));
 }
 
-?>
