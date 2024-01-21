@@ -38,4 +38,3 @@ elseif (array_sum($hand) <= 8 && $hand['Q']) {
 
 header('Location: index.php');
 
-?>
