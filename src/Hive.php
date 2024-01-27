@@ -2,14 +2,13 @@
 
 $GLOBALS['OFFSETS'] = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
 
-class GameModel
-{
+class Hive {
+
     private $board;
     private $player;
     private $hand;
 
-    public function __construct($board, $player, $hand)
-    {
+    public function __construct($board, $player, $hand){
         $this->board = $board;
         $this->player = $player;
         $this->hand = $hand;
@@ -346,6 +345,36 @@ class GameModel
                 echo '<div class="tile player'.$BlackOrWhite.'"><span>'.$tile."</span></div> ";
             }
         }
-}
+    }
 
+    function showTurn(){
+        if ($player == 0){
+            echo "White";
+        }
+        else {
+            echo "Black";
+        }
+    }
+
+    function showTiles(){
+        foreach ($hand[$player] as $tile => $ct) {
+            echo "<option value=\"$tile\">$tile</option>";
+        }
+    }
+
+    function showAvailablePositions(){
+        foreach ($to as $pos) {
+            echo "<option value=\"$pos\">$pos</option>";
+        }
+    }
+
+    function showGame(){
+        $db = include_once 'database.php';
+        $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = '.$_SESSION['game_id']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_array()) {
+            echo '<li>'.$row[2].' '.$row[3].' '.$row[4].'</li>';
+        }
+    }
 }
