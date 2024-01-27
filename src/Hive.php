@@ -54,8 +54,6 @@ class Hive {
     function move(){
         session_start();
 
-        include_once 'util.php';
-
         $from = $_POST['from'];
         $to = $_POST['to'];
 
@@ -153,8 +151,6 @@ class Hive {
 
     function play(){
         session_start();
-
-        include_once 'util.php';
 
         $piece = $_POST['piece'];
         $to = $_POST['to'];
