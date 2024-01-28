@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    include_once 'hiveController.php';
+    include_once 'HiveController.php';
     include_once 'hiveView.php';
     include_once 'hiveModel.php';
 
