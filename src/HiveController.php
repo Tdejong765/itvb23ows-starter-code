@@ -2,7 +2,7 @@
 
 $GLOBALS['OFFSETS'] = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
 
-class HiveController {
+class hiveController {
 
     private $board;
     private $player;
