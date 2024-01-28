@@ -21,7 +21,7 @@ services:
        MYSQL_USER: username
     volumes:
       - ./Database:/docker-entrypoint-initdb.d
-
+      
 
   jenkins:
     image: jenkins/jenkins:lts
@@ -41,3 +41,4 @@ services:
 
 volumes:
   mysql-data:
+  db-data:
