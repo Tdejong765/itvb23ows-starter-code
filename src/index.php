@@ -1,11 +1,15 @@
 <?php
     session_start();
 
-    include_once 'HiveController.php';
-    include_once 'HiveView.php';
+    include_once 'hiveController.php';
+    include_once 'hiveView.php';
+    include_once 'hiveModel.php';
 
-    $HiveController = new HiveController($_SESSION['board'], $_SESSION['player'], $_SESSION['hand']);
-    $HiveView = new HiveView($HiveController);
+    $hiveModel = new hiveModel('mysql-db', 'username', 'password', 'hive', 3306);
+
+    $hiveController = new hiveController($hiveModel);
+
+    $hiveView = new hiveView($hiveController);
 
 
 ?>
@@ -13,44 +17,45 @@
 <html lang="en">
     <head>
         <title>Hive</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
         <div class="board">
             <?php
-               $HiveView->showBoard();
+               $hiveView->showBoard();
             ?>
         </div>
 
         <div class="hand">
             White:
             <?php
-                $HiveView->showHand(0);
+                $hiveView->showHand(0);
             ?>
         </div>
 
         <div class="hand">
             Black:
             <?php
-                $HiveView->showHand(1);
+                $hiveView->showHand(1);
             ?>
         </div>
 
         <div class="turn">
             Turn: 
             <?php 
-                $HiveView->showTurn();
+                $hiveView->showTurn();
             ?>
         </div>
 
         <form method="post" action="play.php">
             <select name="piece">
                 <?php
-                    $HiveView->showTiles();
+                    $hiveView->showTiles();
                 ?>
             </select>
             <select name="to">
                 <?php
-                    $HiveView->showAvailablePositions();
+                    $hiveView->showAvailablePositions();
                 ?>
             </select>
             <input type="submit" value="Play">
@@ -58,12 +63,12 @@
         <form method="post" action="move.php">
             <select name="from">
                 <?php
-                    $HiveView->showAvailablePositions();
+                    $hiveView->showAvailablePositions();
                 ?>
             </select>
             <select name="to">
                 <?php
-                    $HiveView->showAvailablePositions();
+                    $hiveView->showAvailablePositions();
                 ?>
             </select>
             <input type="submit" value="Move">
@@ -85,7 +90,7 @@
                 unset($_SESSION['error']); ?></strong>
         <ol>
             <?php
-               $HiveView->showGame();
+               $hiveView->showGame();
             ?>
         </ol>
 

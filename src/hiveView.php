@@ -5,21 +5,21 @@
 
 <?php
 
-include_once 'hiveController.php';
+include_once 'HiveController.php';
 
-class hiveView {
+class HiveView {
 
-    private $hiveController;
+    private $HiveController;
 
-    public function __construct($hiveController){
-        $this->hiveController = $hiveController;
+    public function __construct($HiveController){
+        $this->HiveController = $HiveController;
     }
-
+    
 
     function getAvailablePositions(){
         $to = [];
         foreach ($GLOBALS['OFFSETS'] as $pq) {
-            foreach (array_keys($this->hiveController->getBoard()) as $pos) {
+            foreach (array_keys($this->HiveController->getBoard()) as $pos) {
                 $pq2 = explode(',', $pos);
                 $to[] = ($pq[0] + $pq2[0]).','.($pq[1] + $pq2[1]);
             }
@@ -36,7 +36,7 @@ class hiveView {
     function showBoard(){
         $min_p = 1000;
         $min_q = 1000;
-        foreach ($this->hiveController->getBoard() as $pos => $tile) {
+        foreach ($this->HiveController->getBoard() as $pos => $tile) {
             $pq = explode(',', $pos);
             if ($pq[0] < $min_p){
                 $min_p = $pq[0];
@@ -46,7 +46,7 @@ class hiveView {
                 $min_q = $pq[1];
             }
         }
-        foreach (array_filter($this->hiveController->getBoard()) as $pos => $tile) {
+        foreach (array_filter($this->HiveController->getBoard()) as $pos => $tile) {
             $pq = explode(',', $pos);
             $pq[0];
             $pq[1];
@@ -69,7 +69,7 @@ class hiveView {
     }
 
     function showHand($BlackOrWhite){
-        foreach ($this->hiveController->getHand($BlackOrWhite) as $tile => $ct) {
+        foreach ($this->HiveController->getHand($BlackOrWhite) as $tile => $ct) {
             for ($i = 0; $i < $ct; $i++) {
                 echo '<div class="tile player'.$BlackOrWhite.'"><span>'.$tile."</span></div> ";
             }
@@ -77,7 +77,7 @@ class hiveView {
     }
 
     function showTurn(){
-        if ($this->hivecontroller->getPlayer == 0){
+        if ($this->Hivecontroller->getPlayer == 0){
             echo "White";
         }
         else {
@@ -86,7 +86,7 @@ class hiveView {
     }
 
     function showTiles(){
-        foreach ($this->hiveController->getHand[$player] as $tile => $ct) {
+        foreach ($this->HiveController->getHand[$player] as $tile => $ct) {
             echo "<option value=\"$tile\">$tile</option>";
         }
     }
