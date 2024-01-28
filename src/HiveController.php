@@ -2,7 +2,7 @@
 
 $GLOBALS['OFFSETS'] = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
 
-class Hive {
+class HiveController {
 
     private $board;
     private $player;
@@ -12,45 +12,44 @@ class Hive {
         $this->board = $board;
         $this->player = $player;
         $this->hand = $hand;
+
+        if (!isset($board)) {
+            $this->restart();
+        }
     }
 
-    // Getter for $board
+    //Getters and setters
     public function getBoard()
     {
         return $this->board;
     }
 
-    // Setter for $board
     public function setBoard($board)
     {
         $this->board = $board;
     }
 
-    // Getter for $player
     public function getPlayer()
     {
         return $this->player;
     }
 
-    // Setter for $player
     public function setPlayer($player)
     {
         $this->player = $player;
     }
 
-    // Getter for $hand
     public function getHand()
     {
         return $this->hand;
     }
 
-    // Setter for $hand
     public function setHand($hand)
     {
         $this->hand = $hand;
     }
 
-
+    //GameLogic
     function move(){
         session_start();
 
@@ -199,7 +198,6 @@ class Hive {
         $_SESSION['game_id'] = $db->insert_id;
 
         header('Location: index.php');
-
     }
 
 
@@ -215,6 +213,7 @@ class Hive {
     }
 
 
+    //Utility functions
     function isNeighbour($a, $b) {
         $a = explode(',', $a);
         $b = explode(',', $b);
@@ -280,97 +279,5 @@ class Hive {
             return false;
         }
         return min(len($board[$common[0]]), len($board[$common[1]])) <= max(len($board[$from]), len($board[$to]));
-    }
-
-
-    function getAvailablePositions(){
-        $to = [];
-        foreach ($GLOBALS['OFFSETS'] as $pq) {
-            foreach (array_keys($board) as $pos) {
-                $pq2 = explode(',', $pos);
-                $to[] = ($pq[0] + $pq2[0]).','.($pq[1] + $pq2[1]);
-            }
-        }
-        
-        $to = array_unique($to);
-        if (!count($to)){
-            $to[] = '0,0';
-        }
-        return $to;
-    }
-
-
-    function showBoard(){
-        $min_p = 1000;
-        $min_q = 1000;
-        foreach ($board as $pos => $tile) {
-            $pq = explode(',', $pos);
-            if ($pq[0] < $min_p){
-                $min_p = $pq[0];
-            }
-
-            if ($pq[1] < $min_q){
-                $min_q = $pq[1];
-            }
-        }
-        foreach (array_filter($board) as $pos => $tile) {
-            $pq = explode(',', $pos);
-            $pq[0];
-            $pq[1];
-            $h = count($tile);
-            echo '<div class="tile player';
-            echo $tile[$h-1][0];
-            
-            if ($h > 1){
-                echo ' stacked';
-            }
-            
-            echo '" style="left: ';
-            echo ($pq[0] - $min_p) * 4 + ($pq[1] - $min_q) * 2;
-            echo 'em; top: ';
-            echo ($pq[1] - $min_q) * 4;
-            echo "em;\">($pq[0],$pq[1])<span>";
-            echo $tile[$h-1][1];
-            echo '</span></div>';
-        }
-    }
-
-    function showHand($hand, $BlackOrWhite){
-        foreach ($hand[$BlackOrWhite] as $tile => $ct) {
-            for ($i = 0; $i < $ct; $i++) {
-                echo '<div class="tile player'.$BlackOrWhite.'"><span>'.$tile."</span></div> ";
-            }
-        }
-    }
-
-    function showTurn(){
-        if ($player == 0){
-            echo "White";
-        }
-        else {
-            echo "Black";
-        }
-    }
-
-    function showTiles(){
-        foreach ($hand[$player] as $tile => $ct) {
-            echo "<option value=\"$tile\">$tile</option>";
-        }
-    }
-
-    function showAvailablePositions(){
-        foreach ($to as $pos) {
-            echo "<option value=\"$pos\">$pos</option>";
-        }
-    }
-
-    function showGame(){
-        $db = include_once 'database.php';
-        $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = '.$_SESSION['game_id']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        while ($row = $result->fetch_array()) {
-            echo '<li>'.$row[2].' '.$row[3].' '.$row[4].'</li>';
-        }
     }
 }
