@@ -4,56 +4,78 @@ $GLOBALS['OFFSETS'] = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
 
 class HiveController {
 
-    private $board;
-    private $player;
-    private $hand;
+    private array $board;
+    private int $player;
+    private array $hand;
+    private int $game_id;
 
     public function __construct($hiveModel){
 
         $this->hiveModel = $hiveModel;
-
-        if (!isset($_SESSION['board'])) {
-            $this->restart();
+        
+        if (isset($_SESSION['board'])) {
+            $this->board = $_SESSION['board'];
+        } else {
+            $this->board = [];
         }
 
-        $this->board = $_SESSION['board'];
-        $this->player = $_SESSION['player'];
-        $this->hand = $_SESSION['hand'];
-        $this->game_id = $_SESSION['game_id'];
+        if (isset($_SESSION['player'])) {
+            $this->player = $_SESSION['player'];
+        } else {
+            $this->player = 0;
+        }
+
+        if (isset($_SESSION['hand'])) {
+            $this->hand = $_SESSION['hand'];
+        } else {
+            $this->hand = [];
+        }
+
+        if (isset($_SESSION['game_id'])) {
+            $this->game_id = $_SESSION['game_id'];
+        } else {
+            $this->game_id = 0;
+        }
+       
     }
 
     //Getters and setters
-    public function getBoard()
+    public function getBoard(): array
     {
         return $this->board;
     }
 
-    public function setBoard($board)
+    public function setBoard($board): array
     {
         $this->board = $board;
     }
 
-    public function getPlayer()
+    public function getPlayer(): int
     {
         return $this->player;
     }
 
-    public function setPlayer($player)
+    public function setPlayer($player): int
     {
         $this->player = $player;
     }
 
-    public function getHand()
+    public function getHand(): array
     {
         return $this->hand;
     }
 
-    public function setHand($hand)
+    public function setHand($hand): array
     {
         $this->hand = $hand;
     }
 
-    //GameLogic
+    function refreshGame(){
+        $sql = 'SELECT * FROM moves WHERE game_id = ';
+        $params = $this->game_id;
+        return $stmt = $this->hiveModel->prepareAndExecute($sql, $params);
+    }
+    
     function move(){
         session_start();
 
@@ -196,9 +218,10 @@ class HiveController {
         $this->hand = [0 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3], 1 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3]];
         $this->player = 0;
 
-        $stmt = $this->hiveModel->prepareAndExecute('INSERT INTO games VALUES ()', []);
-        $this->game_id = $stmt->insert_id;
-
+        // Prepare the SQL query with placeholders
+        $sql = 'INSERT INTO games () VALUES (?, ?, ?)';
+        $params = [$this->board, $this->hand, $this->player];
+        $stmt = $this->hiveModel->prepareAndExecute($sql, $params);
     }
 
 

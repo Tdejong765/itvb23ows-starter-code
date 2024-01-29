@@ -86,7 +86,7 @@ class hiveView {
     }
 
     function showTiles(){
-        foreach ($this->HiveController->getHand[$player] as $tile => $ct) {
+        foreach ($this->HiveController->getHand()[$player] as $tile => $ct) {
             echo "<option value=\"$tile\">$tile</option>";
         }
     }
@@ -98,12 +98,9 @@ class hiveView {
     }
 
     function showGame(){
-        $db = include_once 'database.php';
-        $stmt = $db->prepare('SELECT * FROM moves WHERE game_id = '.$_SESSION['game_id']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        while ($row = $result->fetch_array()) {
+        while ( $this->HiveController->refreshGame()->fetch_array()) {
             echo '<li>'.$row[2].' '.$row[3].' '.$row[4].'</li>';
         }
+
     }
 }
