@@ -50,7 +50,7 @@
         <form method="post" action="play.php">
             <select name="piece">
                 <?php
-                    $hiveView->showTiles();
+                    $hiveView->showTiles(0);
                 ?>
             </select>
             <select name="to">

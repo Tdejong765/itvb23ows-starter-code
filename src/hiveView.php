@@ -69,7 +69,7 @@ class hiveView {
     }
 
     function showHand($BlackOrWhite){
-        foreach ($this->HiveController->getHand($BlackOrWhite) as $tile => $ct) {
+        foreach ($this->HiveController->getHand()[$BlackOrWhite] as $tile => $ct) {
             for ($i = 0; $i < $ct; $i++) {
                 echo '<div class="tile player'.$BlackOrWhite.'"><span>'.$tile."</span></div> ";
             }
@@ -77,7 +77,7 @@ class hiveView {
     }
 
     function showTurn(){
-        if ($this->hivecontroller->getPlayer == 0){
+        if ($this->HiveController->getPlayer() == 0){
             echo "White";
         }
         else {
@@ -85,13 +85,14 @@ class hiveView {
         }
     }
 
-    function showTiles(){
+    function showTiles($player){
         foreach ($this->HiveController->getHand()[$player] as $tile => $ct) {
             echo "<option value=\"$tile\">$tile</option>";
         }
     }
 
     function showAvailablePositions(){
+        $to = $this->getAvailablePositions();
         foreach ($to as $pos) {
             echo "<option value=\"$pos\">$pos</option>";
         }

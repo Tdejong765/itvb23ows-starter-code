@@ -8,38 +8,22 @@ class HiveController {
     private int $player;
     private array $hand;
     private int $game_id;
-
+   
     public function __construct($hiveModel){
 
         $this->hiveModel = $hiveModel;
-        
-        if (isset($_SESSION['board'])) {
-            $this->board = $_SESSION['board'];
-        } else {
-            $this->board = [];
+
+        if (!isset($_SESSION['board'])) {
+            $this->restart();
         }
 
-        if (isset($_SESSION['player'])) {
-            $this->player = $_SESSION['player'];
-        } else {
-            $this->player = 0;
-        }
-
-        if (isset($_SESSION['hand'])) {
-            $this->hand = $_SESSION['hand'];
-        } else {
-            $this->hand = [];
-        }
-
-        if (isset($_SESSION['game_id'])) {
-            $this->game_id = $_SESSION['game_id'];
-        } else {
-            $this->game_id = 0;
-        }
-       
+        $this->game_id = $_SESSION['game_id'];
+        $this->board = $_SESSION['board'];
+        $this->player = $_SESSION['player'];
+        $this->hand = $_SESSION['hand'];
     }
 
-    //Getters and setters
+
     public function getBoard(): array
     {
         return $this->board;
@@ -73,9 +57,27 @@ class HiveController {
     function refreshGame(){
         $sql = 'SELECT * FROM moves WHERE game_id = ';
         $params = $this->game_id;
-        return $stmt = $this->hiveModel->prepareAndExecute($sql, $params);
+        return $stmt = $this->hiveModel->dbRefresh($sql, $params);
     }
     
+    public function setState(){
+        $_SESSION['game_id'] = $this->game_id;
+        $_SESSION['board'] = $this->board;
+        $_SESSION['hand'] = $this->hand;
+        $_SESSION['player'] = $this->player;
+        header('Location: index.php');
+    }
+
+    public function restart(){
+        $this->board = [];
+        $this->hand = [0 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3], 1 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3]];
+        $this->player = 0;
+       
+        $sql = 'INSERT INTO games () VALUES ()';
+        $this->game_id = $this->hiveModel->dbRestart($sql);
+        $this->setState();
+    }
+
     function move(){
         session_start();
 
@@ -212,19 +214,7 @@ class HiveController {
         header('Location: index.php');
     }
 
-
-    function restart(){
-        $this->board = [];
-        $this->hand = [0 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3], 1 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3]];
-        $this->player = 0;
-
-        // Prepare the SQL query with placeholders
-        $sql = 'INSERT INTO games () VALUES (?, ?, ?)';
-        $params = [$this->board, $this->hand, $this->player];
-        $stmt = $this->hiveModel->prepareAndExecute($sql, $params);
-    }
-
-
+    
     function undo(){
         session_start();
         $db = include_once 'database.php';
@@ -237,7 +227,6 @@ class HiveController {
     }
 
 
-    //Utility functions
     function isNeighbour($a, $b) {
         $a = explode(',', $a);
         $b = explode(',', $b);
