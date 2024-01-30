@@ -1,8 +1,8 @@
 <?php
-    include_once 'sessionManager.php';
-    include_once 'HiveController.php';
-    include_once 'hiveView.php';
-    include_once 'hiveModel.php';
+    include_once 'MVC/sessionManager.php';
+    include_once 'MVC/HiveController.php';
+    include_once 'MVC/hiveView.php';
+    include_once 'MVC/hiveModel.php';
 
     $sessionManager = new sessionManager();
 

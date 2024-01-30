@@ -1,6 +1,6 @@
 
 <style>
-<?php include 'style.css'; ?>
+<?php include '../style.css'; ?>
 </style>
 
 <?php
