@@ -15,7 +15,6 @@ class hiveView {
         $this->HiveController = $HiveController;
     }
     
-
     function getAvailablePositions(){
         $to = [];
         foreach ($GLOBALS['OFFSETS'] as $pq) {

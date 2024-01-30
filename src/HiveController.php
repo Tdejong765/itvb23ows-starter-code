@@ -8,19 +8,21 @@ class HiveController {
     private int $player;
     private array $hand;
     private int $game_id;
+    private $sessionManager;
    
-    public function __construct($hiveModel){
+    public function __construct($hiveModel, $sessionManager){
 
         $this->hiveModel = $hiveModel;
+        $this->sessionManager = $sessionManager;
 
         if (!isset($_SESSION['board'])) {
             $this->restart();
         }
 
-        $this->game_id = $_SESSION['game_id'];
-        $this->board = $_SESSION['board'];
-        $this->player = $_SESSION['player'];
-        $this->hand = $_SESSION['hand'];
+        $this->game_id = $this->sessionManager->getSessionVariable('game_id');
+        $this->board = $this->sessionManager->getSessionVariable('board');
+        $this->player = $this->sessionManager->getSessionVariable('player');
+        $this->hand = $this->sessionManager->getSessionVariable('hand');
     }
 
 
@@ -60,14 +62,6 @@ class HiveController {
         return $stmt = $this->hiveModel->dbRefresh($sql, $params);
     }
     
-    public function setState(){
-        $_SESSION['game_id'] = $this->game_id;
-        $_SESSION['board'] = $this->board;
-        $_SESSION['hand'] = $this->hand;
-        $_SESSION['player'] = $this->player;
-        header('Location: index.php');
-    }
-
     public function restart(){
         $this->board = [];
         $this->hand = [0 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3], 1 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3]];
@@ -75,7 +69,7 @@ class HiveController {
        
         $sql = 'INSERT INTO games () VALUES ()';
         $this->game_id = $this->hiveModel->dbRestart($sql);
-        $this->setState();
+        $this->sessionManager->setState($this->game_id ,$this->board, $this->player, $this->hand);
     }
 
     function move(){

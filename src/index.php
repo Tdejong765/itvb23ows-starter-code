@@ -1,13 +1,14 @@
 <?php
-    session_start();
-
+    include_once 'sessionManager.php';
     include_once 'HiveController.php';
     include_once 'hiveView.php';
     include_once 'hiveModel.php';
 
+    $sessionManager = new sessionManager();
+
     $hiveModel = new hiveModel('mysql-db', 'username', 'password', 'hive', 3306);
 
-    $hiveController = new hiveController($hiveModel);
+    $hiveController = new hiveController($hiveModel, $sessionManager);
 
     $hiveView = new hiveView($hiveController);
 
