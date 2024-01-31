@@ -1,24 +1,25 @@
 
 <style>
-<?php include '../style.css'; ?>
+<?php include '../../style.css'; ?>
 </style>
 
 <?php
 
-include_once 'HiveController.php';
+include_once(__DIR__ . '/../../MVC/Controller/gameController.php');
+
 
 class hiveView {
 
-    private $HiveController;
+    private $gameController;
 
-    public function __construct($HiveController){
-        $this->HiveController = $HiveController;
+    public function __construct($gameController){
+        $this->gameController = $gameController;
     }
     
     function getAvailablePositions(){
         $to = [];
         foreach ($GLOBALS['OFFSETS'] as $pq) {
-            foreach (array_keys($this->HiveController->getBoard()) as $pos) {
+            foreach (array_keys($this->gameController->getBoard()) as $pos) {
                 $pq2 = explode(',', $pos);
                 $to[] = ($pq[0] + $pq2[0]).','.($pq[1] + $pq2[1]);
             }
@@ -35,7 +36,7 @@ class hiveView {
     function showBoard(){
         $min_p = 1000;
         $min_q = 1000;
-        foreach ($this->HiveController->getBoard() as $pos => $tile) {
+        foreach ($this->gameController->getBoard() as $pos => $tile) {
             $pq = explode(',', $pos);
             if ($pq[0] < $min_p){
                 $min_p = $pq[0];
@@ -45,7 +46,7 @@ class hiveView {
                 $min_q = $pq[1];
             }
         }
-        foreach (array_filter($this->HiveController->getBoard()) as $pos => $tile) {
+        foreach (array_filter($this->gameController->getBoard()) as $pos => $tile) {
             $pq = explode(',', $pos);
             $pq[0];
             $pq[1];
@@ -68,7 +69,7 @@ class hiveView {
     }
 
     function showHand($BlackOrWhite){
-        foreach ($this->HiveController->getHand()[$BlackOrWhite] as $tile => $ct) {
+        foreach ($this->gameController->getHand()[$BlackOrWhite] as $tile => $ct) {
             for ($i = 0; $i < $ct; $i++) {
                 echo '<div class="tile player'.$BlackOrWhite.'"><span>'.$tile."</span></div> ";
             }
@@ -76,7 +77,7 @@ class hiveView {
     }
 
     function showTurn(){
-        if ($this->HiveController->getPlayer() == 0){
+        if ($this->gameController->getPlayer() == 0){
             echo "White";
         }
         else {
@@ -85,7 +86,7 @@ class hiveView {
     }
 
     function showTiles($player){
-        foreach ($this->HiveController->getHand()[$player] as $tile => $ct) {
+        foreach ($this->gameController->getHand()[$player] as $tile => $ct) {
             echo "<option value=\"$tile\">$tile</option>";
         }
     }
@@ -98,35 +99,41 @@ class hiveView {
     }
 
     function showGame(){
-        while ( $this->HiveController->refreshGame()->fetch_array()) {
-            echo '<li>'.$row[2].' '.$row[3].' '.$row[4].'</li>';
+        $result = $this->gameController->refreshGame();
+
+        if ($result) {
+            while ($row = $result->fetch_array()) {
+                echo '<li>'.$row[2].' '.$row[3].' '.$row[4].'</li>';
+            }
+        } else {
+            echo "Error fetching game data.";
         }
     }
 
     function handleFormSubmission() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["move_submit"])) {
-                $this->HiveController->move();
+                $this->gameController->move();
                 echo "Move form submitted!";
             }
 
             elseif (isset($_POST["pass_submit"])) {
-                $this->HiveController->pass();
+                $this->gameController->pass();
                 echo "Pass form submitted!";
             }
 
             elseif (isset($_POST["play_submit"])) {
-                $this->HiveController->play();
+                $this->gameController->play();
                 echo "Play form submitted!";
             }
 
             elseif (isset($_POST["restart_submit"])) {
-                $this->HiveController->restart();
+                $this->gameController->restartGame();
                 echo "Restart form submitted!";
             } 
 
             elseif (isset($_POST["undo_submit"])) {
-                $this->HiveController->undo();
+                $this->gameController->undo();
                 echo "undo form submitted!";
             } 
 
@@ -134,10 +141,6 @@ class hiveView {
                 // Handle unexpected form submissions
                 echo "Invalid form submission!";
             }
-        } else {
-            
-            header("Location: index.php");
-            exit();
         }
     }
 }

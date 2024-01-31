@@ -1,13 +1,15 @@
 <?php
-    include_once 'MVC/sessionManager.php';
-    include_once 'MVC/HiveController.php';
-    include_once 'MVC/hiveView.php';
-    include_once 'MVC/hiveModel.php';
+    include_once 'MVC/Controller/sessionController.php';
+    include_once 'MVC/Controller/gameController.php';
+    include_once 'MVC/Controller/boardController.php';
+    include_once 'MVC/View/hiveView.php';
+    include_once 'MVC/Model/hiveModel.php';
 
-    $sessionManager = new sessionManager();
+    $sessionController = new sessionController();
+    $boardController = new boardController();
     $hiveModel = new hiveModel('mysql-db', 'username', 'password', 'hive', 3306);
-    $hiveController = new hiveController($hiveModel, $sessionManager);
-    $hiveView = new hiveView($hiveController);
+    $gameController = new gameController($hiveModel, $sessionController, $boardController);
+    $hiveView = new hiveView($gameController);
     $hiveView->handleFormSubmission();
 
 ?>
@@ -81,11 +83,6 @@
         </form>
 
         <strong>
-            <?php 
-                if (isset($_SESSION['error'])){
-                echo $_SESSION['error'];
-            }
-                unset($_SESSION['error']); ?></strong>
         <ol>
             <?php
                $hiveView->showGame();
