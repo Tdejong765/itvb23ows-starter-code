@@ -5,13 +5,10 @@
     include_once 'MVC/hiveModel.php';
 
     $sessionManager = new sessionManager();
-
     $hiveModel = new hiveModel('mysql-db', 'username', 'password', 'hive', 3306);
-
     $hiveController = new hiveController($hiveModel, $sessionManager);
-
     $hiveView = new hiveView($hiveController);
-
+    $hiveView->handleFormSubmission();
 
 ?>
 <!DOCTYPE html>
@@ -48,7 +45,7 @@
             ?>
         </div>
 
-        <form method="post" action="play.php">
+        <form method="post">
             <select name="piece">
                 <?php
                     $hiveView->showTiles(0);
@@ -59,9 +56,9 @@
                     $hiveView->showAvailablePositions();
                 ?>
             </select>
-            <input type="submit" value="Play">
+            <input type="submit" name="play_submit" value="Play">
         </form>
-        <form method="post" action="move.php">
+        <form method="post">
             <select name="from">
                 <?php
                     $hiveView->showAvailablePositions();
@@ -72,15 +69,15 @@
                     $hiveView->showAvailablePositions();
                 ?>
             </select>
-            <input type="submit" value="Move">
+            <input type="submit" name="move_submit" value="Move">
         </form>
 
-        <form method="post" action="pass.php">
-            <input type="submit" value="Pass">
+        <form method="post">
+            <input type="submit" name="pass_submit" value="Pass">
         </form>
 
-        <form method="post" action="restart.php">
-            <input type="submit" value="Restart">
+        <form method="post">
+            <input type="submit" name="restart_submit"  value="Restart">
         </form>
 
         <strong>
@@ -95,8 +92,8 @@
             ?>
         </ol>
 
-        <form method="post" action="undo.php">
-            <input type="submit" value="Undo">
+        <form method="post">
+            <input type="submit" name="undo_submit" value="Undo">
         </form>
 
     </body>

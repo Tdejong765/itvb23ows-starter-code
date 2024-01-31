@@ -101,6 +101,43 @@ class hiveView {
         while ( $this->HiveController->refreshGame()->fetch_array()) {
             echo '<li>'.$row[2].' '.$row[3].' '.$row[4].'</li>';
         }
+    }
 
+    function handleFormSubmission() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (isset($_POST["move_submit"])) {
+                $this->HiveController->move();
+                echo "Move form submitted!";
+            }
+
+            elseif (isset($_POST["pass_submit"])) {
+                $this->HiveController->pass();
+                echo "Pass form submitted!";
+            }
+
+            elseif (isset($_POST["play_submit"])) {
+                $this->HiveController->play();
+                echo "Play form submitted!";
+            }
+
+            elseif (isset($_POST["restart_submit"])) {
+                $this->HiveController->restart();
+                echo "Restart form submitted!";
+            } 
+
+            elseif (isset($_POST["undo_submit"])) {
+                $this->HiveController->undo();
+                echo "undo form submitted!";
+            } 
+
+            else {
+                // Handle unexpected form submissions
+                echo "Invalid form submission!";
+            }
+        } else {
+            
+            header("Location: index.php");
+            exit();
+        }
     }
 }

@@ -11,14 +11,12 @@ class HiveController {
     private $sessionManager;
    
     public function __construct($hiveModel, $sessionManager){
-
         $this->hiveModel = $hiveModel;
         $this->sessionManager = $sessionManager;
 
         if (!isset($_SESSION['board'])) {
             $this->restart();
         }
-
         $this->game_id = $this->sessionManager->getSessionVariable('game_id');
         $this->board = $this->sessionManager->getSessionVariable('board');
         $this->player = $this->sessionManager->getSessionVariable('player');
