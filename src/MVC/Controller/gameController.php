@@ -1,7 +1,5 @@
 <?php
 
-$GLOBALS['OFFSETS'] = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
-
 class gameController {
 
     private array $board;
