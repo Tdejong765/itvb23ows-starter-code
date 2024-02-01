@@ -50,10 +50,6 @@ class sessionController {
         $this->setSessionVariable('game_id', $game_id);
         $this->setSessionVariable('board', $board);
         $this->setSessionVariable('player', $player);
-        $this->setSessionVariable('hand', $hand);
-        $this->setSessionVariable('last_move', $last_move);
-        $this->setSessionVariable('ERROR', $ERROR);
-        header('Location: index.php');
     }
 
 }

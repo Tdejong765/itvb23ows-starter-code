@@ -51,4 +51,9 @@ class HiveModel{
         return $this->Execute($stmt)->insert_id;
     }
 
+    public function dbUndo($sql, $params){
+        $stmt = $sql . $params;
+        $query = $this->mysqli->prepare($stmt);
+        return $this->Execute($query)->get_result()->fetch_array();
+    }
 }

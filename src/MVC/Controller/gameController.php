@@ -60,7 +60,6 @@ class gameController {
         $this->sessionController->refreshState($this->game_id ,$this->board, $this->player, $this->hand , $this->last_move, $this->ERROR);
     }
 
-
     function pass(){
         $game_id = $this->game_id;
         $last_move = $this->last_move;
@@ -70,6 +69,16 @@ class gameController {
         $this->last_move = $this->hiveModel->dbPass($sql, $game_id, $last_move, $state);
         $this->player = -1;
         $this->sessionController->refreshState($game_id, $this->board, $this->player, $this->hand, $last_move, $this->ERROR);
+    }
+
+    function undo(){
+        $sql = 'SELECT * FROM moves WHERE id = ';
+        $params = $this->last_move;
+        $result = $this->hiveModel->dbPass($sql, $params);
+
+        $this->last_move = $result[5];
+        $this->sessionController->setState($result[6]);
+        $this->sessionController->refreshState($this->game_id, $this->board, $this->player, $this->hand, $this->last_move, $this->ERROR);
     }
 
     function play(){
@@ -85,10 +94,10 @@ class gameController {
         elseif (isset($board[$to])){
             $this->ERROR  = 'Board position is not empty';
         }
-        elseif (count($board) && !hasNeighBour($to, $board)){
+        elseif (count($board) && !$this->boardController->hasNeighBour($to, $board)){
             $this->ERROR  = "board position has no neighbour";
         }
-        elseif (array_sum($hand) < 11 && !neighboursAreSameColor($player, $to, $board)){
+        elseif (array_sum($hand) < 11 && !$this->boardController->neighboursAreSameColor($player, $to, $board)){
             $this->ERROR  = "Board position has opposing neighbour";
         }
         elseif (array_sum($hand) <= 8 && $hand['Q']) {
@@ -104,7 +113,7 @@ class gameController {
         }
     }
     
-
+    
     function move(){
         session_start();
 
@@ -185,17 +194,6 @@ class gameController {
             $_SESSION['board'] = $board;
         }
 
-        header('Location: index.php');
-    }
-    
-    function undo(){
-        session_start();
-        $db = include_once 'database.php';
-        $stmt = $db->prepare('SELECT * FROM moves WHERE id = '.$_SESSION['last_move']);
-        $stmt->execute();
-        $result = $stmt->get_result()->fetch_array();
-        $_SESSION['last_move'] = $result[5];
-        set_state($result[6]);
         header('Location: index.php');
     }
 }
