@@ -46,6 +46,11 @@ class gameController {
         return $this->ERROR;
     }
 
+    public function getOffsets(): array
+    {
+        return $this->boardController->getOffsets();
+    }
+
     function refreshGame(){
         $sql = 'SELECT * FROM moves WHERE game_id = ';
         $params = $this->game_id;

@@ -2,13 +2,8 @@
 
 class BoardController {
 
-    const OFFSETS = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
-
-    // public function __construct() {        
-    // }
-
     public function getOffsets() {
-        return self::OFFSETS;
+        return [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
     }
 
     function isNeighbour($a, $b) {

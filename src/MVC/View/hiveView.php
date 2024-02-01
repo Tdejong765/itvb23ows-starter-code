@@ -18,7 +18,7 @@ class hiveView {
     
     function getAvailablePositions(){
         $to = [];
-        foreach ($GLOBALS['OFFSETS'] as $pq) {
+        foreach ($this->gameController->getOffsets() as $pq) {
             foreach (array_keys($this->gameController->getBoard()) as $pos) {
                 $pq2 = explode(',', $pos);
                 $to[] = ($pq[0] + $pq2[0]).','.($pq[1] + $pq2[1]);
