@@ -78,11 +78,11 @@ class gameController {
 
     function undo(){
         $sql = 'SELECT * FROM moves WHERE id = ';
-        $params = $this->last_move;
-        $result = $this->hiveModel->dbPass($sql, $params);
-
-        $this->last_move = $result[5];
-        $this->sessionController->setState($result[6]);
+        $last_move = $this->last_move;
+        $result = $this->hiveModel->dbUndo($sql, $last_move);
+        
+        $this->last_move = $result;
+        $this->sessionController->setState($result);
         $this->sessionController->refreshState($this->game_id, $this->board, $this->player, $this->hand, $this->last_move, $this->ERROR);
     }
 

@@ -56,7 +56,7 @@ class HiveModel{
         $query = $this->mysqli->prepare($stmt);
         return $this->Execute($query)->get_result()->fetch_array();
     }
-
+    
     public function dbMove($sql, $param1, $param2, $param3, $param4, $param5){
         $stmt = $this->mysqli->prepare($sql);   
         $stmt->bind_param('issis', $param1, $param2, $param3, $param4, $param5);
