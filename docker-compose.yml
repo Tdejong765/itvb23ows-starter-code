@@ -8,9 +8,8 @@ services:
     depends_on:
       - mysql-db
 
-
   mysql-db:
-    image: mysql:5.7
+    image: mysql:latest
     ports:
       - "3306:3306"
     environment:
@@ -20,8 +19,7 @@ services:
        MYSQL_PASSWORD: password 
        MYSQL_USER: username
     volumes:
-      - mysql-data:/var/lib/mysql
-
+      - ./Database:/docker-entrypoint-initdb.d
 
   jenkins:
     image: jenkins/jenkins:lts
