@@ -114,7 +114,12 @@ class hiveView {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["move_submit"])) {
                 $this->gameController->move();
-                echo "Move form submitted!";
+
+                if ($this->gameController->getERROR() != NULL){
+                    echo $this->gameController->getERROR();
+                } else {
+                    echo "Made move";
+                }
             }
 
             elseif (isset($_POST["pass_submit"])) {
@@ -124,7 +129,12 @@ class hiveView {
 
             elseif (isset($_POST["play_submit"])) {
                 $this->gameController->play();
-                echo "Play form submitted!";
+
+                if ($this->gameController->getERROR() != NULL){
+                    echo $this->gameController->getERROR();
+                } else {
+                    echo "Made a play";
+                }
             }
 
             elseif (isset($_POST["restart_submit"])) {

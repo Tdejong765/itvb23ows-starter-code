@@ -41,6 +41,11 @@ class gameController {
         return $this->hand;
     }
 
+    public function getERROR(): string
+    {
+        return $this->ERROR;
+    }
+
     function refreshGame(){
         $sql = 'SELECT * FROM moves WHERE game_id = ';
         $params = $this->game_id;
