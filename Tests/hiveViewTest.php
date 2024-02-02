@@ -33,5 +33,26 @@ class hiveViewTest extends TestCase {
         ];
 
         $this->assertEquals($expectedOptions, $options);
-    }        
+    }
+
+
+    public function testShowAvailablePositions(): void
+    {   
+        $boardControllerMock = $this->createMock(\App\BoardController::class);
+        $boardControllerMock->expects($this->once())
+            ->method('getOffsets')
+            ->willReturn([[1, 0], [0, 1]]);
+
+        $gameControllerMock = $this->createMock(\App\GameController::class);
+        $gameControllerMock->expects($this->once())
+            ->method('getOffsets')
+            ->willReturn([[1, 0], [0, 1]]);
+
+        $hiveView = $this->getMockBuilder(\App\HiveView::class)
+            ->setConstructorArgs([$gameControllerMock])
+            ->getMock();
+
+        $hiveView->expects($this->once())->method('getAvailablePositions');
+        $hiveView->showAvailablePositions();
+    }
 }
