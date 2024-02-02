@@ -16,6 +16,7 @@ class hiveView {
         $this->gameController = $gameController;
     }
     
+    //fixed
     private function getAvailablePositions(){
         $to = [];
         foreach ($this->gameController->getOffsets() as $pq) {
