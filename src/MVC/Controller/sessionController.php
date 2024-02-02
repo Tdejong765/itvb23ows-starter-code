@@ -35,7 +35,7 @@ class sessionController {
         session_destroy();
     }
 
-    function getState() {
+    public function getState() {
         return serialize([
             $this->getSessionVariable('hand'),
             $this->getSessionVariable('board'),
@@ -45,7 +45,7 @@ class sessionController {
         ]);
     }
     
-    function setState($state) {
+    public function setState($state) {
         list($hand, $board, $player) = unserialize($state);
         $this->setSessionVariable('game_id', $game_id);
         $this->setSessionVariable('board', $board);

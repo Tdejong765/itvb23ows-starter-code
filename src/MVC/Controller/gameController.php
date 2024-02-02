@@ -51,7 +51,7 @@ class gameController {
         return $this->boardController->getOffsets();
     }
 
-    function refreshGame(){
+    public function refreshGame(){
         $sql = 'SELECT * FROM moves WHERE game_id = ';
         $params = $this->game_id;
         return $stmt = $this->hiveModel->dbRefresh($sql, $params);
@@ -70,7 +70,7 @@ class gameController {
         $this->sessionController->refreshState($this->game_id ,$this->board, $this->player, $this->hand , $this->last_move, $this->ERROR);
     }
 
-    function pass(){
+    public function pass(){
         $game_id = $this->game_id;
         $last_move = $this->last_move;
         $state = $this->sessionController->getState();
@@ -81,7 +81,7 @@ class gameController {
         $this->sessionController->refreshState($game_id, $this->board, $this->player, $this->hand, $last_move, $this->ERROR);
     }
 
-    function undo(){
+    public function undo(){
         $sql = 'SELECT * FROM moves WHERE id = ';
         $last_move = $this->last_move;
         $result = $this->hiveModel->dbUndo($sql, $last_move);
@@ -91,7 +91,7 @@ class gameController {
         $this->sessionController->refreshState($this->game_id, $this->board, $this->player, $this->hand, $this->last_move, $this->ERROR);
     }
 
-    function play(){
+    public function play(){
         $piece = $_POST['piece'];
         $to = $_POST['to'];
         $player = $this->player;
@@ -125,7 +125,7 @@ class gameController {
     }
     
     
-    function move(){
+    public function move(){
         $from = $_POST['from'];
         $to = $_POST['to'];
         $player = $this->player;
