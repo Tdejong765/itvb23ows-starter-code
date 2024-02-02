@@ -1,7 +1,5 @@
 <?php
 
-namespace Model;
-
 class HiveModel{
 
     private $mysqli;

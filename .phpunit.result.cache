@@ -1,1 +1,1 @@
-{"version":1,"defects":{"Warning":6,"hiveViewTest::testShowTiles":3},"times":{"Warning":0.001,"hiveViewTest::testShowTiles":0.005}}
+{"version":1,"defects":{"Warning":6,"hiveViewTest::testShowTiles":3,"hiveViewTest::testShowAvailablePositions":3},"times":{"Warning":0.001,"hiveViewTest::testShowTiles":0.005,"hiveViewTest::testShowAvailablePositions":0.001}}

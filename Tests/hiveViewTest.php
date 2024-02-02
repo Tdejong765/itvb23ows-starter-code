@@ -1,13 +1,11 @@
 <?php
 
-
 use PHPUnit\Framework\TestCase;
-
-use Controller\boardController;
-use Controller\gameController;
-use Controller\sessionController;
-use Model\hiveModel;
-use View\hiveView;
+require_once __DIR__ . '/../src/MVC/Controller/gameController.php';
+require_once __DIR__ . '/../src/MVC/Controller/boardController.php';
+require_once __DIR__ . '/../src/MVC/Controller/sessionController.php';
+require_once __DIR__ . '/../src/MVC/View/hiveView.php';
+require_once __DIR__ . '/../src/MVC/Model/hiveModel.php';
 
 
 class hiveViewTest extends TestCase {
@@ -38,17 +36,17 @@ class hiveViewTest extends TestCase {
 
     public function testShowAvailablePositions(): void
     {   
-        $boardControllerMock = $this->createMock(\App\BoardController::class);
+        $boardControllerMock = $this->createMock(boardController::class);
         $boardControllerMock->expects($this->once())
             ->method('getOffsets')
             ->willReturn([[1, 0], [0, 1]]);
 
-        $gameControllerMock = $this->createMock(\App\GameController::class);
+        $gameControllerMock = $this->createMock(gameController::class);
         $gameControllerMock->expects($this->once())
             ->method('getOffsets')
             ->willReturn([[1, 0], [0, 1]]);
 
-        $hiveView = $this->getMockBuilder(\App\HiveView::class)
+        $hiveView = $this->getMockBuilder(HiveView::class)
             ->setConstructorArgs([$gameControllerMock])
             ->getMock();
 

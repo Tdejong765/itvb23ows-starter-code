@@ -1,7 +1,5 @@
 <?php
 
-namespace Controller;
-
 class gameController {
 
     private array $board;
