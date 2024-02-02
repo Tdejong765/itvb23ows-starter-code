@@ -1,9 +1,9 @@
 <?php
-    include_once 'MVC/Controller/sessionController.php';
-    include_once 'MVC/Controller/gameController.php';
-    include_once 'MVC/Controller/boardController.php';
-    include_once 'MVC/View/hiveView.php';
-    include_once 'MVC/Model/hiveModel.php';
+    use Controller\boardController;
+    use Controller\gameController;
+    use Controller\sessionController;
+    use View\hiveView;
+    use Model\hiveModel;
 
     $sessionController = new sessionController();
     $boardController = new boardController();

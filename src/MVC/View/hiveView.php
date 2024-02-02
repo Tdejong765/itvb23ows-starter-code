@@ -1,12 +1,6 @@
-
-<style>
-<?php include '../../style.css'; ?>
-</style>
-
 <?php
 
-include_once(__DIR__ . '/../../MVC/Controller/gameController.php');
-
+namespace View;
 
 class hiveView {
 

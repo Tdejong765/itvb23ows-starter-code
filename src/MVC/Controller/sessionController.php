@@ -1,5 +1,7 @@
 <?php
 
+namespace Controller;
+
 class sessionController {
 
     public function refreshState($game_id, $board, $player, $hand, $last_move, $ERROR) {
