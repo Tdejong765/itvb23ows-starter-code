@@ -4,8 +4,10 @@
     },
     "autoload": {
         "psr-4": {
-            "YourNamespace\\": "src/",
-            "YourNamespace\\Tests\\": "Tests/"
+            "Controller\\": "src/MVC/Controller",
+            "Model\\": "src/MVC/Model",
+            "View\\": "src/MVC/View",
+            "Tests\\": "Tests/"
         }
     }
 }

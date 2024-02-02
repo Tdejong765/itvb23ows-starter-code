@@ -2,6 +2,8 @@
 
 namespace View;
 
+include_once(__DIR__ . '/../../MVC/Controller/gameController.php');
+
 class hiveView {
 
     private $gameController;
