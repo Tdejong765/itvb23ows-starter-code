@@ -16,7 +16,8 @@ class hiveView {
         $this->gameController = $gameController;
     }
     
-    function getAvailablePositions(){
+    //fixed
+    private function getAvailablePositions(){
         $to = [];
         foreach ($this->gameController->getOffsets() as $pq) {
             foreach (array_keys($this->gameController->getBoard()) as $pos) {
@@ -33,7 +34,7 @@ class hiveView {
     }
 
 
-    function showBoard(){
+    public function showBoard(){
         $min_p = 1000;
         $min_q = 1000;
         foreach ($this->gameController->getBoard() as $pos => $tile) {
@@ -68,7 +69,7 @@ class hiveView {
         }
     }
 
-    function showHand($BlackOrWhite){
+    public function showHand($BlackOrWhite){
         foreach ($this->gameController->getHand()[$BlackOrWhite] as $tile => $ct) {
             for ($i = 0; $i < $ct; $i++) {
                 echo '<div class="tile player'.$BlackOrWhite.'"><span>'.$tile."</span></div> ";
@@ -76,7 +77,7 @@ class hiveView {
         }
     }
 
-    function showTurn(){
+    public function showTurn(){
         if ($this->gameController->getPlayer() == 0){
             echo "White";
         }
@@ -85,20 +86,20 @@ class hiveView {
         }
     }
 
-    function showTiles($player){
+    public function showTiles($player){
         foreach ($this->gameController->getHand()[$player] as $tile => $ct) {
             echo "<option value=\"$tile\">$tile</option>";
         }
     }
 
-    function showAvailablePositions(){
+    public function showAvailablePositions(){
         $to = $this->getAvailablePositions();
         foreach ($to as $pos) {
             echo "<option value=\"$pos\">$pos</option>";
         }
     }
 
-    function showGame(){
+    public function showGame(){
         $result = $this->gameController->refreshGame();
 
         if ($result) {
@@ -110,7 +111,7 @@ class hiveView {
         }
     }
 
-    function handleFormSubmission() {
+    public function handleFormSubmission() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["move_submit"])) {
                 $this->gameController->move();

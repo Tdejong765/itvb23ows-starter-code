@@ -6,7 +6,7 @@ class BoardController {
         return [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
     }
 
-    function isNeighbour($a, $b) {
+    public function isNeighbour($a, $b) {
         $a = explode(',', $a);
         $b = explode(',', $b);
         if ($a[0] == $b[0] && abs($a[1] - $b[1]) == 1){ 
@@ -22,7 +22,7 @@ class BoardController {
     }
     
 
-    function hasNeighBour($a, $board) {
+    public function hasNeighBour($a, $board) {
         foreach (array_keys($board) as $b) {
             if (isNeighbour($a, $b)){ 
                 return true;
@@ -31,7 +31,7 @@ class BoardController {
     }
     
 
-    function neighboursAreSameColor($player, $a, $board) {
+    public function neighboursAreSameColor($player, $a, $board) {
         foreach ($board as $b => $st) {
             if (!$st) {
                 continue;
@@ -45,12 +45,12 @@ class BoardController {
     }
     
 
-    function len($tile) {
+    public function len($tile) {
         return $tile ? count($tile) : 0;
     }
     
 
-    function slide($board, $from, $to) {
+    public function slide($board, $from, $to) {
         if (!hasNeighBour($to, $board)){
             return false;
         }
