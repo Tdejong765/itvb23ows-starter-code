@@ -8,7 +8,7 @@ pipeline {
             agent {
                 docker {
                 // Set both label and image
-                label 'docker'
+                label 'dockerserver'
                 image 'node:7-alpine'
                 args '--name docker-node' // list any args
                 }
