@@ -5,8 +5,15 @@ RUN apt-get update && apt-get install -y \
     wget \
     unzip
 
-#install docker-compose
-RUN apt-get install -y docker-compose
+# Install Docker
+RUN wget https://download.docker.com/linux/static/stable/x86_64/docker-20.10.11.tgz \
+    && tar -xvf docker-20.10.11.tgz \
+    && mv docker/* /usr/bin/ \
+    && rm -rf docker-20.10.11.tgz docker
+
+# Install Docker Compose
+RUN wget https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64 -O /usr/local/bin/docker-compose \
+    && chmod +x /usr/local/bin/docker-compose
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
