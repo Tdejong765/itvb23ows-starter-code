@@ -1,6 +1,6 @@
 /* Requires the Docker Pipeline plugin */
 pipeline {
-    agent any
+    agent { label 'dockerserver' }
 
     stages {
 
@@ -18,7 +18,7 @@ pipeline {
                 sh 'node --version'
             }
         }
-        
+
         stage('SonarQubeScanner'){
             steps{
                 script {scannerHome = tool 'SonarQube'}
