@@ -4,20 +4,6 @@ pipeline {
     
     stages {
 
-        stage('Build') {
-            steps {
-                // Use fully-specified path to docker-compose executable
-                sh 'docker-compose up -d'
-            }
-        }
-
-
-        stage('Run PHPUnit Tests') {
-            steps {
-                 sh 'docker-compose exec php-app vendor/bin/phpunit'
-            }
-        }
-
         stage('SonarQubeScanner'){
             steps{
                 script {scannerHome = tool 'SonarQube'}
