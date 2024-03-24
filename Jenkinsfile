@@ -9,11 +9,18 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
+        // stage('Build') {
+        //     steps {
+        //         sh 'php --version'
+        //     }
+        // }
+
+        stage('Run PHPUnit Tests') {
             steps {
-                sh 'php --version'
+                sh './vendor/bin/phpunit'
             }
         }
+
         stage('SonarQubeScanner'){
             steps{
                 script {scannerHome = tool 'SonarQube'}
