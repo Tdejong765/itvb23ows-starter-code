@@ -3,8 +3,11 @@ pipeline {
     agent { docker { image 'php:8.2-apache' } }
     stages {
          stage('Initialize'){
-                script {dockerHome = tool 'myDocker' }
+            steps{
+                script {dockerHome = tool 'myDocker' 
                 env.PATH = "${dockerHome}/bin:${env.PATH}"
+                }
+            }
         }
         stage('Build') {
             steps {
