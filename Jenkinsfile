@@ -2,6 +2,10 @@
 pipeline {
     agent { docker { image 'php:8.2-apache' } }
     stages {
+         stage('Initialize'){
+            def dockerHome = tool 'myDocker'
+            env.PATH = "${dockerHome}/bin:${env.PATH}"
+        }
         stage('Build') {
             steps {
                 sh 'php --version'
