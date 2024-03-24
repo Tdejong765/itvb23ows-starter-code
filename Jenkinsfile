@@ -13,9 +13,11 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker-compose build php-app'
+                // Use fully-specified path to docker-compose executable
+                sh '/usr/local/bin/docker-compose up -d'
             }
         }
+
 
         stage('Run PHPUnit Tests') {
             steps {
