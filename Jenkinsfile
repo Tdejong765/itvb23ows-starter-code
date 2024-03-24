@@ -13,13 +13,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker build'
+                sh 'docker-compose build php-app'
             }
         }
 
         stage('Run PHPUnit Tests') {
             steps {
-                sh './vendor/bin/phpunit'
+                 sh 'docker-compose exec php-app vendor/bin/phpunit'
             }
         }
 
