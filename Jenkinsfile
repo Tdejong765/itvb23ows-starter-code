@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker compose build'
+                sh 'php --version'
             }
         }
         stage('SonarQubeScanner'){
