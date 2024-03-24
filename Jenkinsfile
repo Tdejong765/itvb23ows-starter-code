@@ -2,7 +2,7 @@
 pipeline {
     agent any
     stages {
-        
+
          stage('Initialize'){
             steps{
                 script {dockerHome = tool 'myDocker' 
@@ -13,7 +13,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker-compose build'
+                sh 'docker build'
             }
         }
 
