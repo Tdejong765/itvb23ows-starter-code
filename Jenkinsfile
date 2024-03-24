@@ -2,6 +2,7 @@
 pipeline {
     agent any
     stages {
+        
          stage('Initialize'){
             steps{
                 script {dockerHome = tool 'myDocker' 
@@ -9,11 +10,12 @@ pipeline {
                 }
             }
         }
-        // stage('Build') {
-        //     steps {
-        //         sh 'php --version'
-        //     }
-        // }
+
+        stage('Build') {
+            steps {
+                sh 'docker-compose build'
+            }
+        }
 
         stage('Run PHPUnit Tests') {
             steps {
