@@ -1,12 +1,15 @@
 /* Requires the Docker Pipeline plugin */
 pipeline {
-    agent any
+    agent {
+        docker { image 'node:20.11.1-alpine3.19' }
+    }
+    
     stages {
-        
+
         stage('Build') {
             steps {
                 // Use fully-specified path to docker-compose executable
-                sh '/usr/local/bin/docker-compose up -d'
+                sh 'docker-compose up -d'
             }
         }
 
