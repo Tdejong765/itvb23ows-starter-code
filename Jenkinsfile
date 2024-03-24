@@ -2,15 +2,7 @@
 pipeline {
     agent any
     stages {
-
-         stage('Initialize'){
-            steps{
-                script {dockerHome = tool 'myDocker' 
-                env.PATH = "${dockerHome}/bin:${env.PATH}"
-                }
-            }
-        }
-
+        
         stage('Build') {
             steps {
                 // Use fully-specified path to docker-compose executable
