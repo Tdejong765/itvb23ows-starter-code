@@ -10,6 +10,10 @@ RUN apt-get install -y docker-compose
 
 # Install php-xml
 RUN apt-get install -y php-cli php-xml
+
+# Install mbstring for PHPunit
+RUN apt-get install -y php-mbstring
+
 RUN usermod -aG docker jenkins
 
 # Set user
