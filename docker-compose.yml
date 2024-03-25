@@ -15,14 +15,13 @@ services:
     environment:
        MYSQL_ROOT_PASSWORD: root
        MYSQL_DATABASE: hive
-       MYSQL_ALLOW_EMPTY_PASSWORD: Yes
        MYSQL_PASSWORD: password 
        MYSQL_USER: username
     volumes:
       - ./Database:/docker-entrypoint-initdb.d
 
   jenkins:
-    image: jenkins/jenkins:lts
+    build: ./jenkins
     privileged: true
     user: root
     ports:
