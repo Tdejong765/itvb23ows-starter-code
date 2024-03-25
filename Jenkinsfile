@@ -1,21 +1,12 @@
 /* Requires the Docker Pipeline plugin */
 pipeline {
-    agent { label 'dockerserver' }
+    agent any
 
     stages {
 
-        stage('Docker node test') {
-            agent {
-                docker {
-                // Set both label and image
-                label 'dockerserver'
-                image 'node:7-alpine'
-                args '--name docker-node' // list any args
-                }
-            }
+       stage('Build') {
             steps {
-                // Steps run in node:7-alpine docker container on docker agent
-                sh 'node --version'
+                sh 'docker-compose build'
             }
         }
 
