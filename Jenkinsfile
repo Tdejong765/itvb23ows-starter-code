@@ -10,6 +10,14 @@ pipeline {
             }
         }
 
+        stage('PHPUnit tests') {
+            steps {
+                script {
+                    sh './vendor/bin/phpunit'
+                }
+            }
+        }
+
         stage('SonarQubeScanner'){
             steps{
                 script {scannerHome = tool 'SonarQube'}
