@@ -17,7 +17,7 @@ class hiveView {
     }
     
     //fixed
-    private function getAvailablePositions(){
+    public function getAvailablePositions(){
         $to = [];
         foreach ($this->gameController->getOffsets() as $pq) {
             foreach (array_keys($this->gameController->getBoard()) as $pos) {
