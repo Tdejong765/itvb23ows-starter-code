@@ -1,12 +1,23 @@
 /* Requires the Docker Pipeline plugin */
 pipeline {
-    agent any 
+    agent any
+
     stages {
-        stage('build') {
+
+       stage('Build') {
             steps {
-                echo 'Hello World'
+                sh 'docker-compose -f docker-compose.yml build'
             }
         }
+
+        stage('PHPUnit tests') {
+            steps {
+                script {
+                    sh 'php ./vendor/bin/phpunit'
+                }
+            }
+        }
+
         stage('SonarQubeScanner'){
             steps{
                 script {scannerHome = tool 'SonarQube'}

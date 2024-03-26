@@ -1,3 +1,2 @@
 # .gitignore
-
-/vendor/
+.phpunit.result.cache
