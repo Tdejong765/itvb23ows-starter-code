@@ -43,7 +43,6 @@ class hiveViewTest extends TestCase {
 
     //Test if dropdown options behave properly
     public function testShowAvailablePositions(): void {
-
         $sessionController = new sessionController();
         $boardController = new boardController();
         $dbHost = getenv('DB_HOST');
@@ -51,7 +50,6 @@ class hiveViewTest extends TestCase {
         $gameController = new gameController($hiveModel, $sessionController, $boardController);
     
         // Arrange: Create an instance of HiveView with the real GameController
-        $gameController->setOffsets([[1, 0], [0, 1]]);
         $hiveView = new hiveView($gameController);
         ob_start();
     
@@ -64,7 +62,7 @@ class hiveViewTest extends TestCase {
             '<option value="1,0">1,0</option>',
             '<option value="0,1">0,1</option>',
         ];
-
+    
         $this->assertEquals(implode('', $expectedOptions), $output);
     }
 }
