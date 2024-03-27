@@ -6,9 +6,11 @@ class gameController {
     private int $player;
     private array $hand;
     private int $game_id;
-    private $sessionController;
     private int $last_move;
     private string $ERROR;
+    private $sessionController;
+    private $boardController;
+    private $hiveModel;
 
     public function __construct($hiveModel, $sessionController, $boardController){
         
@@ -36,6 +38,10 @@ class gameController {
         return $this->player;
     }
 
+    public function setHand(array $hand): void {
+        $this->hand = $hand;
+    }
+    
     public function getHand(): array
     {
         return $this->hand;
@@ -55,6 +61,7 @@ class gameController {
         $sql = 'SELECT * FROM moves WHERE game_id = ';
         $params = $this->game_id;
         return $stmt = $this->hiveModel->dbRefresh($sql, $params);
+        header('Location: index.php');
     }
     
     public function restartGame(){
@@ -65,8 +72,7 @@ class gameController {
         $this->last_move=-1;
         $this->ERROR="";
        
-        $sql = 'INSERT INTO games () VALUES ()';
-        $game_id = $this->hiveModel->dbRestart($sql);
+        $game_id = $this->hiveModel->dbRestart();
         $this->sessionController->refreshState($this->game_id ,$this->board, $this->player, $this->hand , $this->last_move, $this->ERROR);
     }
 

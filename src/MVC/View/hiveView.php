@@ -1,8 +1,3 @@
-
-<style>
-<?php include '../../style.css'; ?>
-</style>
-
 <?php
 
 include_once(__DIR__ . '/../../MVC/Controller/gameController.php');
@@ -16,7 +11,6 @@ class hiveView {
         $this->gameController = $gameController;
     }
     
-    //fixed
     public function getAvailablePositions(){
         $to = [];
         foreach ($this->gameController->getOffsets() as $pq) {
