@@ -14,7 +14,6 @@ class hiveViewTest extends TestCase {
     public function testShowTiles() {
         $sessionController = new sessionController();
         $boardController = new boardController();
-    
         $dbHost = getenv('DB_HOST');
         $hiveModel = new hiveModel($dbHost, 'username', 'password', 'hive', 3306);
         $gameController = new gameController($hiveModel, $sessionController, $boardController);
@@ -24,12 +23,15 @@ class hiveViewTest extends TestCase {
             'player2' => ['stone3' => 3, 'stone4' => 1],
         ]);
     
+        // Arrange: Create an instance of HiveView with the real GameController
         $hiveView = new hiveView($gameController);
         ob_start();
     
+        // Act: Call the showTiles method for player1
         $hiveView->showTiles('player1');
         $output = ob_get_clean();
-    
+        
+        // Assert: Check if the generated HTML matches the expected HTML
         $expectedOptions = [
             '<option value="stone1">stone1</option>',
             '<option value="stone2">stone2</option>',
@@ -39,24 +41,30 @@ class hiveViewTest extends TestCase {
     }
 
 
+    //Test if dropdown options behave properly
+    public function testShowAvailablePositions(): void {
 
-    public function testShowAvailablePositions(): void
-    {   
-        $boardControllerMock = $this->createMock(boardController::class);
-        $boardControllerMock->expects($this->once())
-            ->method('getOffsets')
-            ->willReturn([[1, 0], [0, 1]]);
-
-        $gameControllerMock = $this->createMock(gameController::class);
-        $gameControllerMock->expects($this->once())
-            ->method('getOffsets')
-            ->willReturn([[1, 0], [0, 1]]);
-
-        $hiveView = $this->getMockBuilder(HiveView::class)
-            ->setConstructorArgs([$gameControllerMock])
-            ->getMock();
-
-        $hiveView->expects($this->once())->method('getAvailablePositions');
+        $sessionController = new sessionController();
+        $boardController = new boardController();
+        $dbHost = getenv('DB_HOST');
+        $hiveModel = new hiveModel($dbHost, 'username', 'password', 'hive', 3306);
+        $gameController = new gameController($hiveModel, $sessionController, $boardController);
+    
+        // Arrange: Create an instance of HiveView with the real GameController
+        $gameController->setOffsets([[1, 0], [0, 1]]);
+        $hiveView = new hiveView($gameController);
+        ob_start();
+    
+        // Act: Call the showAvailblePositions method
         $hiveView->showAvailablePositions();
+        $output = ob_get_clean();
+    
+        // Assert: Check if the generated HTML matches the expected HTML
+        $expectedOptions = [
+            '<option value="1,0">1,0</option>',
+            '<option value="0,1">0,1</option>',
+        ];
+
+        $this->assertEquals(implode('', $expectedOptions), $output);
     }
 }
