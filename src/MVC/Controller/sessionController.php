@@ -9,7 +9,6 @@ class sessionController {
         $this->setSessionVariable('hand', $hand);
         $this->setSessionVariable('last_move', $last_move);
         $this->setSessionVariable('ERROR', $ERROR);
-        header('Location: index.php');
     }
 
     public function startSession() {

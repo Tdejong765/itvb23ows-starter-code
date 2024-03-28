@@ -1,8 +1,3 @@
-
-<style>
-<?php include '../../style.css'; ?>
-</style>
-
 <?php
 
 include_once(__DIR__ . '/../../MVC/Controller/gameController.php');
@@ -16,8 +11,7 @@ class hiveView {
         $this->gameController = $gameController;
     }
     
-    //fixed
-    private function getAvailablePositions(){
+    public function getAvailablePositions(){
         $to = [];
         foreach ($this->gameController->getOffsets() as $pq) {
             foreach (array_keys($this->gameController->getBoard()) as $pos) {
@@ -25,7 +19,6 @@ class hiveView {
                 $to[] = ($pq[0] + $pq2[0]).','.($pq[1] + $pq2[1]);
             }
         }
-        
         $to = array_unique($to);
         if (!count($to)){
             $to[] = '0,0';

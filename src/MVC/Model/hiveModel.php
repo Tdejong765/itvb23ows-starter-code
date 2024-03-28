@@ -34,7 +34,8 @@ class HiveModel{
         return $this->Execute($query)->get_result();
     }
 
-    public function dbRestart($sql){   
+    public function dbRestart(){
+        $sql = 'INSERT INTO games () VALUES ()';   
         $query = $this->mysqli->prepare($sql);
         return $this->Execute($query)->insert_id;
     }

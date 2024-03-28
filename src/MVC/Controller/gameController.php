@@ -6,12 +6,20 @@ class gameController {
     private int $player;
     private array $hand;
     private int $game_id;
-    private $sessionController;
     private int $last_move;
     private string $ERROR;
+    private $sessionController;
+    private $boardController;
+    private $hiveModel;
 
     public function __construct($hiveModel, $sessionController, $boardController){
         
+        $this->board = [];
+        $this->hand = [0 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3], 1 => ["Q" => 1, "B" => 2, "S" => 2, "A" => 3, "G" => 3]];
+        $this->game_id = 0;
+        $this->player = 0;
+        $this->last_move=-1;
+        $this->ERROR="";
         $this->hiveModel = $hiveModel;
         $this->sessionController = $sessionController;
         $this->boardController = $boardController;
@@ -36,6 +44,10 @@ class gameController {
         return $this->player;
     }
 
+    public function setHand(array $hand): void {
+        $this->hand = $hand;
+    }
+    
     public function getHand(): array
     {
         return $this->hand;
@@ -55,6 +67,7 @@ class gameController {
         $sql = 'SELECT * FROM moves WHERE game_id = ';
         $params = $this->game_id;
         return $stmt = $this->hiveModel->dbRefresh($sql, $params);
+        header('Location: index.php');
     }
     
     public function restartGame(){
@@ -65,8 +78,7 @@ class gameController {
         $this->last_move=-1;
         $this->ERROR="";
        
-        $sql = 'INSERT INTO games () VALUES ()';
-        $game_id = $this->hiveModel->dbRestart($sql);
+        $game_id = $this->hiveModel->dbRestart();
         $this->sessionController->refreshState($this->game_id ,$this->board, $this->player, $this->hand , $this->last_move, $this->ERROR);
     }
 
@@ -94,33 +106,33 @@ class gameController {
     public function play(){
         $piece = $_POST['piece'];
         $to = $_POST['to'];
-        $player = $this->player;
-        $board = $this->board;
-        $hand = $this->hand[$player];
+        $hand = $this->hand[$this->player];
+
+        var_dump($_POST);
 
         if (!$hand[$piece]){
             $this->ERROR = "Player does not have tile";
         }
-        elseif (isset($board[$to])){
+        elseif (isset($this->board[$to])){
             $this->ERROR  = 'Board position is not empty';
         }
-        elseif (count($board) && !$this->boardController->hasNeighBour($to, $board)){
+        elseif (count($this->board) && !$this->boardController->hasNeighBour($to, $this->board)){
             $this->ERROR  = "board position has no neighbour";
         }
-        elseif (array_sum($hand) < 11 && !$this->boardController->neighboursAreSameColor($player, $to, $board)){
+        elseif (array_sum($hand) < 11 && !$this->boardController->neighboursAreSameColor($this->player, $to, $this->board)){
             $this->ERROR  = "Board position has opposing neighbour";
         }
         elseif (array_sum($hand) <= 8 && $hand['Q']) {
             $this->ERROR  = 'Must play queen bee';
         } else {
-            $board[$to] = [[$player, $piece]];
-            $hand[$player][$piece]--;
-            $hand = 1 - $player;
+            $this->board[$to] = [[$this->player, $piece]];
+            $this->hand[$this->player][$piece]--;
+            $hand = 1 - $this->player;
 
             $state = $this->sessionController->getState();
             $sql = 'INSERT INTO moves (game_id, type, move_from, move_to, previous_id, state) VALUES (?, "play", ?, ?, ?, ?)';  
             $this->last_move = $this->hiveModel->dbPlay($sql, $this->game_id, $piece, $to, $this->last_move, $state);
-            $this->sessionController->refreshState($this->game_id, $board, $player, $hand, $this->last_move, $this->ERROR);
+            $this->sessionController->refreshState($this->game_id, $this->board, $this->player, $hand, $this->last_move, $this->ERROR);
         }
     }
     

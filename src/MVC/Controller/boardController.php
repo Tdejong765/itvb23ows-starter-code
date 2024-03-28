@@ -3,7 +3,8 @@
 class BoardController {
 
     public function getOffsets() {
-        return [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
+        $OFFSETS = [[0, 1], [0, -1], [1, 0], [-1, 0], [-1, 1], [1, -1]];
+        return $OFFSETS;
     }
 
     public function isNeighbour($a, $b) {

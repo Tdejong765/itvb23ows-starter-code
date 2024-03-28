@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit>
+    <php>
+    <env name="DB_HOST" value="172.18.0.1"/>
+    <!-- Other environment variables -->
+    </php>
     <testsuites>
         <testsuite name="YourTestSuite">
             <directory>Tests</directory>
