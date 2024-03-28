@@ -14,6 +14,9 @@ RUN apt-get install -y php-cli php-xml
 # Install mbstring for PHPunit
 RUN apt-get install -y php-mbstring
 
+# Install php-mysql
+RUN apt-get install php-mysqlnd
+
 RUN usermod -aG docker jenkins
 
 # Set user
