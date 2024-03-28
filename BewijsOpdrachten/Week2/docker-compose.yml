@@ -8,25 +8,35 @@ services:
     depends_on:
       - mysql-db
 
-
   mysql-db:
-    image: mysql:5.7
+    image: mysql:latest
     ports:
       - "3306:3306"
     environment:
        MYSQL_ROOT_PASSWORD: root
        MYSQL_DATABASE: hive
-       MYSQL_ALLOW_EMPTY_PASSWORD: Yes
-       MYSQL_PASSWORD: 
+       MYSQL_PASSWORD: password 
+       MYSQL_USER: username
     volumes:
-      - mysql-data:/var/lib/mysql
+      - ./Database:/docker-entrypoint-initdb.d
 
   jenkins:
-    image: jenkins/jenkins:lts
+    build: ./jenkins
     privileged: true
     user: root
     ports:
       - 8080:8080
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+
+
+  sonarqube:
+    image: sonarqube:community
+    depends_on:
+      - mysql-db
+    ports:
+      - "9000:9000"
+  
 
 volumes:
   mysql-data:
