@@ -108,8 +108,6 @@ class gameController {
         $to = $_POST['to'];
         $hand = $this->hand[$this->player];
 
-        var_dump($_POST);
-
         if (!$hand[$piece]){
             $this->ERROR = "Player does not have tile";
         }
