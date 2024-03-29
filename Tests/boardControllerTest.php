@@ -95,7 +95,7 @@ class boardControllerTest extends TestCase {
     }
 
 
-    public function testAntValidMoveBorder() {
+    public function testAntAbleToMove() {
 
         // Initialize necessary dependencies
         $sessionController = new sessionController();
@@ -126,8 +126,8 @@ class boardControllerTest extends TestCase {
     }
 
 
-    public function testAntInvalidMoveSurrounded() {
-        
+    public function testAntNotAbleToMove() {
+
         // Initialize necessary dependencies
         $sessionController = new sessionController();
         $boardController = new boardController();
