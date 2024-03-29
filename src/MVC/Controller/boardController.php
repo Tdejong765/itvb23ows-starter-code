@@ -85,28 +85,22 @@ class BoardController {
         $fromCoords = explode(',', $from);
         $toCoords = explode(',', $to);
     
-        // Calculate the differences in rows and columns
         $rowDiff = $toCoords[0] - $fromCoords[0];
         $colDiff = $toCoords[1] - $fromCoords[1];
     
-        // Check if the move is along a straight line
         if ($rowDiff == 0 || $colDiff == 0 || abs($rowDiff) == abs($colDiff)) {
-            // Determine the direction of movement
             $rowDirection = $rowDiff == 0 ? 0 : $rowDiff / abs($rowDiff);
             $colDirection = $colDiff == 0 ? 0 : $colDiff / abs($colDiff);
     
-            // Iterate through the positions between the start and end
             $nextRow = $fromCoords[0] + $rowDirection;
             $nextCol = $fromCoords[1] + $colDirection;
             while ($nextRow != $toCoords[0] || $nextCol != $toCoords[1]) {
                 $pos = $nextRow . ',' . $nextCol;
     
-                // Check if the position exists on the board
                 if (isset($board[$pos])) {
                     return true;
                 }
     
-                // Move to the next position
                 $nextRow += $rowDirection;
                 $nextCol += $colDirection;
             }
