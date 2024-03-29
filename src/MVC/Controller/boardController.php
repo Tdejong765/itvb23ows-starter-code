@@ -80,6 +80,26 @@ class BoardController {
     }
 
 
+    public function getAdjacentTiles($position) {
+        $adjacentOffsets = [
+            [-1, 0], [1, 0], 
+            [0, -1], [0, 1], 
+            [-1, 1], [1, -1] 
+        ];
+    
+        $position = explode(',', $position);
+        $adjacentTiles = [];
+    
+        foreach ($adjacentOffsets as $offset) {
+            $adjRow = $position[0] + $offset[0];
+            $adjCol = $position[1] + $offset[1];
+            $adjacentTiles[] = [$adjRow, $adjCol];
+        }
+    
+        return $adjacentTiles;
+    }
+
+
     public function moveGrasshopper($board, $from, $to) {
         
         $fromCoords = explode(',', $from);
@@ -108,4 +128,37 @@ class BoardController {
         return false;
     }
 
+
+    public function moveAnt($board, $from, $to) {
+
+        $fromCoords = explode(',', $from);
+        $toCoords = explode(',', $to);
+    
+        if ($fromCoords == $toCoords) {
+            return false;
+        }
+    
+        if (isset($board[$to])) {
+            return false;
+        }
+    
+        $rowDiff = $toCoords[0] - $fromCoords[0];
+        $colDiff = $toCoords[1] - $fromCoords[1];
+        $validDirections = [[0, 1], [0, -1], [-1, 0], [1, 0], [-1, 1], [1, -1]];
+
+        $direction = [$rowDiff, $colDiff];
+        if (!in_array($direction, $validDirections)) {
+            return false;
+        }
+
+        $nextTo = 0;
+        foreach ($this->getAdjacentTiles($toCoords) as $tile) {
+            [$x, $y] = $tile;
+            if (isset($board["$x,$y"]) && empty($board["$x,$y"])) {
+                $nextTo++;
+            }
+        }
+    
+        return $nextTo > 0 && $nextTo < 5;
+    }
 }
